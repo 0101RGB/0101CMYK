@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="listarray">
+        <item>보정된 데이터 보기</item>
+        <item>원본 데이터 보기</item>
+        <item>홈페이지</item>
+        <item>전화문의</item>
+    </string-array>
+</resources>

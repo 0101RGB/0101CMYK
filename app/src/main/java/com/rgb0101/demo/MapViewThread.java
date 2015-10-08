@@ -18,9 +18,7 @@ public class MapViewThread extends Thread {
     @Override
     public void run() {
         while(running){
-
             Canvas canvas = myView.getHolder().lockCanvas();
-
             if(canvas != null){
                 synchronized (myView.getHolder()) {
                     myView.drawSomething(canvas);
@@ -31,7 +29,6 @@ public class MapViewThread extends Thread {
             try {
                 sleep(30);
             } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
 

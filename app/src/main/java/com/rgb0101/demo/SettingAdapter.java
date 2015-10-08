@@ -52,7 +52,6 @@ public class SettingAdapter extends ArrayAdapter<String> {
         @Override
         public void onClick(View v){
             boolean check= ((CheckBox)v).isChecked();
-            Toast.makeText(mContext, Boolean.toString(check), Toast.LENGTH_SHORT).show();
             ((MainActivity)mContext).setObjectShowing(check, mType);
         }
         public int getType(){ return mType; }

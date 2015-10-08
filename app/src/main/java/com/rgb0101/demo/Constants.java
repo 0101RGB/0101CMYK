@@ -12,6 +12,13 @@ public class Constants {
     public final static int ALG= 0;
     public final static int RAW= 1;
 
+    public final static int STEP0=0;
+    public final static int STEP1=1;
+    public final static int STEP2=2;
+    public final static int STEP3=3;
+    public final static int STEP4=4;
+    public final static int STEP5=5;
+
     public final static int FPS= 60;
     public final static int PIX_SIZE= 2;
 }

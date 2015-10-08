@@ -8,20 +8,23 @@ import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.widget.Toast;
 
 public class MapView extends SurfaceView {
 
     private Context mContext= null;
     private SurfaceHolder surfaceHolder;
-    private Bitmap bmpIcon, bmpRaw;
+    private Bitmap bmpIcon, bmpRaw, bmpCenter;
     private boolean isShowingIcon= true, isShowingRaw= true;
     private MapViewThread myThread;
-    int xPosIcon = 0, xPosRaw= 0;
-    int yPosIcon = 0, yPosRaw= 0;
-    int deltaXIcon = 5, deltaXRaw= 5;
-    int deltaYIcon = 5, deltaYRaw= 5;
-    int iconWidth;
-    int iconHeight;
+    private int xPosIcon = getWidth()/4, xPosRaw= 0;
+    private int yPosIcon = 5, yPosRaw= 0;
+    private int deltaXIcon = 5, deltaXRaw= 5;
+    private int deltaYIcon = 5, deltaYRaw= 5;
+    private int iconWidth;
+    private int iconHeight;
+
+    private static int mMode= Constants.STEP0;
 
     public MapView(Context context) {
         super(context);
@@ -53,18 +56,22 @@ public class MapView extends SurfaceView {
         surfaceHolder = getHolder();
         bmpIcon = BitmapFactory.decodeResource(getResources(), R.drawable.icon_small);
         bmpRaw= BitmapFactory.decodeResource(getResources(), R.drawable.icon_raw);
+        bmpCenter= BitmapFactory.decodeResource(getResources(), R.drawable.center);
 
         iconWidth = bmpIcon.getWidth();
         iconHeight = bmpIcon.getHeight();
 
-        surfaceHolder.addCallback(new SurfaceHolder.Callback(){
+        surfaceHolder.addCallback(new SurfaceHolder.Callback() {
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
                 myThread.setRunning(true);
                 myThread.start();
             }
+
             @Override
-            public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {}
+            public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+            }
+
             @Override
             public void surfaceDestroyed(SurfaceHolder holder) {
                 boolean retry = true;
@@ -73,64 +80,44 @@ public class MapView extends SurfaceView {
                     try {
                         myThread.join();
                         retry = false;
-                    } catch (InterruptedException e) {}
+                    } catch (InterruptedException e) {
+                    }
                 }
-            }});
+            }
+        });
 
-        xPosRaw= getWidth()-iconWidth;
+        xPosIcon= getWidth()/4;
+//        xPosRaw= getWidth()-iconWidth;
     }
 
     protected void drawSomething(Canvas canvas) {
-        canvas.drawColor(Color.parseColor("#fdfdfd"));
-//        canvas.drawBitmap(bmpIcon, getWidth()/2, getHeight()/2, null);
+        canvas.drawColor(Color.parseColor("#88fdfdfd"));
+        canvas.drawBitmap(bmpCenter, canvas.getWidth() / 2, canvas.getHeight() / 2, null);
 
-        // icon moving
+        switch(mMode){
+            case Constants.STEP0: deltaXIcon=0; deltaYIcon=5; break;
+            case Constants.STEP1: deltaXIcon=5; deltaYIcon=0; break;
+            case Constants.STEP2: deltaXIcon=0; deltaYIcon=-5; break;
+            case Constants.STEP3: deltaXIcon=-5; deltaYIcon=0; break;
+            case Constants.STEP4: deltaXIcon=0; deltaYIcon=-5; break;
+            case Constants.STEP5: deltaXIcon=0; deltaYIcon=0; break;
+        }
+
         xPosIcon += deltaXIcon;
-        if(deltaXIcon > 0){
-            if(xPosIcon >= getWidth() - iconWidth){
-                deltaXIcon *= -1;
-            }
-        }else{
-            if(xPosIcon <= 0){
-                deltaXIcon *= -1;
-            }
-        }
-
         yPosIcon += deltaYIcon;
-        if(deltaYIcon > 0){
-            if(yPosIcon >= getHeight() - iconHeight){
-                deltaYIcon *= -1;
-            }
-        }else{
-            if(yPosIcon <= 0){
-                deltaYIcon *= -1;
-            }
-        }
         if(isShowingIcon) canvas.drawBitmap(bmpIcon, xPosIcon, yPosIcon, null);
 
-        // raw moving
-        xPosRaw -= deltaXRaw;
-        if(deltaXRaw > 0){
-            if(xPosRaw >= getWidth() - iconWidth){
-                deltaXRaw *= -1;
-            }
-        }else{
-            if(xPosRaw <= 0){
-                deltaXRaw *= -1;
-            }
-        }
-
-        yPosRaw += deltaYRaw;
-        if(deltaYRaw > 0){
-            if(yPosRaw >= getHeight() - iconHeight){
-                deltaYRaw *= -1;
-            }
-        }else{
-            if(yPosRaw <= 0){
-                deltaYRaw *= -1;
-            }
-        }
+        xPosRaw= xPosIcon + (int)(Math.random()*20.0 * (Math.random()*4.0-3));
+        yPosRaw= yPosIcon + (int)(Math.random()*20.0 * (Math.random()*4.0-3));
         if(isShowingRaw) canvas.drawBitmap(bmpRaw, xPosRaw, yPosRaw, null);
+
+        switch(mMode){
+            case Constants.STEP0: if(yPosIcon >= canvas.getHeight()/4*3) mMode++; break;
+            case Constants.STEP1: if(xPosIcon >= canvas.getWidth()/4*3) mMode++; break;
+            case Constants.STEP2: if(yPosIcon <= canvas.getHeight()/4) mMode++; break;
+            case Constants.STEP3: if(xPosIcon <= canvas.getWidth()/4) mMode++; break;
+            case Constants.STEP4: if(yPosIcon <= -20) mMode++; break;
+        }
     }
 
 }

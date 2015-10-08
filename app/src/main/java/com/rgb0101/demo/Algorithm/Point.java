@@ -1,3 +1,5 @@
+package com.rgb0101.demo.Algorithm;
+
 public class Point {
 	private double x;
 	private double y;

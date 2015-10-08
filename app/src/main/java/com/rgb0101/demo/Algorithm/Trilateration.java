@@ -1,3 +1,5 @@
+package com.rgb0101.demo.Algorithm;
+
 public class Trilateration {
 	
 	public static Point getResultPointFromPoint(Point a, Point b, Point c, double da, double db, double dc){ return getResult(a, b, c, da, db, dc); }

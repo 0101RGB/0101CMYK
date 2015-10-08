@@ -1,3 +1,5 @@
+package com.rgb0101.demo.Algorithm;
+
 import java.util.ArrayList;
 
 public class Kalman {
@@ -7,7 +9,16 @@ public class Kalman {
 	private static double[][] measure= null;
 	private static double[][] uncertainty= null;
 	private static double[][] noise= null;
-	
+
+    private static double[] measurement= null;
+    private static double[] controlmat= null;
+
+    private static double[] x= null;
+    private static double[] p= null;
+    private static double[] s= null;
+    private static double[] k= null;
+    private static double[] y= null;
+
 	private static double[] lastX= null;
 	private static double[][] lastP= null;
 	
@@ -15,7 +26,7 @@ public class Kalman {
 	private static ArrayList<Point> kPoints= null;
 	private static ArrayList<Point> pPoints= null;
 	
-	private static Point mCur= null;
+	private static Point mCur= null, mLast= null;
 	
 	private static void init(){
 		trans= new double[][]{{1, 0, 0.2, 0}, {0, 1, 0, 0.2}, {0, 0, 1, 0}, {0, 0, 0, 1}};
@@ -23,6 +34,7 @@ public class Kalman {
 		measure= new double[][]{{1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}, {0, 0, 0, 1}};
 		uncertainty= new double[][]{{0.001, 0, 0, 0}, {0, 0.1, 0, 0}, {0, 0, 0.1, 0}, {0, 0, 0, 0.1}};
 		noise= new double[][]{{0.1, 0, 0, 0}, {0, 0.1, 0, 0}, {0, 0, 0.1, 0}, {0, 0, 0, 0.1}};
+
 		rPoints= new ArrayList<Point>();
 		kPoints= new ArrayList<Point>();
 		pPoints= new ArrayList<Point>();
@@ -30,8 +42,25 @@ public class Kalman {
 		mCur= new Point();
 	}
 
-	public static void calibrate(){
-		
+	public static void calibrate(double rawX, double rawY){
+        mCur= new Point(rawX, rawY);
+        rPoints.add(mCur);
+
+        if(mLast == null) mLast= new Point(0, 0);
+        measurement= new double[]{rawX, rawY, rawX-mLast.getX(), rawY-mLast.getY()};
+        controlmat= new double[]{0, 0, 0, 0};
+
+        x= new double[]{0,0,0,0};
+        for(int i=0; i<4; i++){
+            for(int j=0; j<4; j++)
+                x[i] += trans[i][j]*x[j]+control[i][j]*controlmat[j];
+        }
+    }
+
+	public static void clear(){
+		rPoints.clear();
+		kPoints.clear();
+		pPoints.clear();
 	}
 	
 	public double[][] getTrans(){ return trans; }

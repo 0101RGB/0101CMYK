@@ -1,3 +1,5 @@
+package com.rgb0101.demo.Algorithm;
+
 public class test{
 	public static void main(String[] args){
 		Point predict= new Point(3, 2);

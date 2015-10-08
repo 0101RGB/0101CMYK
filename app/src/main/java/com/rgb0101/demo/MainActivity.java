@@ -22,8 +22,10 @@ public class MainActivity extends FragmentActivity {
     private MainFragment mMainFragment= null;
     private SettingFragment mSettingFragment= null;
     private HompageFragment mWebFragment= null;
-
     private int mType= Constants.MAIN;
+
+    private boolean isAlgShowing= true;
+    private boolean isRawShowing= true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +62,20 @@ public class MainActivity extends FragmentActivity {
         mFrgTransaction.commit();
     }
 
-    public void toggleAlgorithm(boolean check){
-        Toast.makeText(this, "checked", Toast.LENGTH_SHORT).show();
+    public void setObjectShowing(boolean check, int type){
+        switch(type){
+            case Constants.ALG: isAlgShowing= check; break;
+            case Constants.RAW: isRawShowing= check; break;
+        }
     }
+    public boolean getObjectShowing(int type){
+        switch(type){
+            case Constants.ALG: return isAlgShowing;
+            case Constants.RAW: return isRawShowing;
+            default: return true;
+        }
+    }
+
     public void phoneCall(){
         Intent intent= new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + Constants.Phone));
         try{ startActivity(intent);

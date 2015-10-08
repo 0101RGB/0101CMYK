@@ -9,6 +9,7 @@ import android.widget.Button;
 
 import com.rgb0101.demo.Constants;
 import com.rgb0101.demo.MainActivity;
+import com.rgb0101.demo.MapView;
 import com.rgb0101.demo.R;
 
 /**
@@ -16,6 +17,8 @@ import com.rgb0101.demo.R;
  */
 public class MainFragment extends Fragment {
     private View wholeView= null;
+
+    private MapView mMapView= null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -37,6 +40,28 @@ public class MainFragment extends Fragment {
     private void makeView(){
         ((Button)wholeView.findViewById(R.id.buttonMainFragmentRefresh)).setOnClickListener(click);
         ((Button)wholeView.findViewById(R.id.buttonMainFragmentSetting)).setOnClickListener(click);
+
+        mMapView= (MapView)wholeView.findViewById(R.id.mapviewMainFragment);
+        mMapView.setShowingIcon(((MainActivity)getActivity()).getObjectShowing(Constants.ALG));
+        mMapView.setShowingRaw(((MainActivity)getActivity()).getObjectShowing(Constants.RAW));
+    }
+
+    public void setObjectShow(boolean check, int type){
+        if(mMapView != null){
+            switch(type){
+                case Constants.RAW: mMapView.setShowingRaw(check); break;
+                case Constants.ALG: mMapView.setShowingIcon(check); break;
+            }
+        }
+    }
+    public boolean getObjectShow(int type){
+        if(mMapView != null){
+            switch(type){
+                case Constants.ALG: return mMapView.getShowingIcon();
+                case Constants.RAW: return mMapView.getShowingRaw();
+            }
+        }
+        return true;
     }
 
     View.OnClickListener click= new View.OnClickListener(){

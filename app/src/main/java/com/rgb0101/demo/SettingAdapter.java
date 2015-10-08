@@ -9,6 +9,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -30,29 +31,30 @@ public class SettingAdapter extends ArrayAdapter<String> {
     public View getView(int position, View v, ViewGroup container){
         if(position == 0 || position == 1){
             v= LayoutInflater.from(mContext).inflate(R.layout.first_item, null);
-            ((CheckBox)v.findViewById(R.id.checkListView)).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v){
-                    boolean check= ((CheckBox)v).isChecked();
-                    ((MainActivity)mContext).toggleAlgorithm(check);
-                }
-            });
+            ((CheckBox)v.findViewById(R.id.checkListView)).setOnClickListener(new CheckClickListener(position));
+            ((CheckBox)v.findViewById(R.id.checkListView)).setChecked(((MainActivity)mContext).getObjectShowing(position));
         } else if(v == null) v= LayoutInflater.from(mContext).inflate(R.layout.items, null);
         ((TextView)v.findViewById(R.id.textListView)).setText(mContent.get(position));
         ((ImageView)v.findViewById(R.id.imageListView)).setImageDrawable(((MainActivity)mContext).getResources().getDrawable(R.drawable.icon01+position));
         return v;
     }
 
-    public void setChecked(){
-        if(mCheck != null){
-            boolean check= mCheck.isChecked();
-            mCheck.setChecked(!check);
-            mCheck.setSelected(!check);
-        }
-    }
-
     @Override
     public String getItem(int position){ return mContent.get(position); }
     @Override
     public int getCount(){ return mContent.size(); }
+
+    private class CheckClickListener implements View.OnClickListener {
+        private int mType= 0;
+
+        public CheckClickListener(int type){ mType= type; }
+
+        @Override
+        public void onClick(View v){
+            boolean check= ((CheckBox)v).isChecked();
+            Toast.makeText(mContext, Boolean.toString(check), Toast.LENGTH_SHORT).show();
+            ((MainActivity)mContext).setObjectShowing(check, mType);
+        }
+        public int getType(){ return mType; }
+    };
 }

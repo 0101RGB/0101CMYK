@@ -21,7 +21,7 @@ public class MapViewThread extends Thread {
             Canvas canvas = myView.getHolder().lockCanvas();
             if(canvas != null){
                 synchronized (myView.getHolder()) {
-                    myView.drawSomething(canvas);
+                    // refresh
                 }
                 myView.getHolder().unlockCanvasAndPost(canvas);
             }

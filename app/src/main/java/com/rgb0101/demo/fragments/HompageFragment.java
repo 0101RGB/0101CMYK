@@ -41,6 +41,6 @@ public class HompageFragment extends Fragment {
         WebSettings set = mWebView.getSettings();
         set.setJavaScriptEnabled(true);
         set.setBuiltInZoomControls(true);
-        mWebView.loadUrl("http://0101rgb.github.io");
+        mWebView.loadUrl("http://www.0101rgb.com");
     }
 }

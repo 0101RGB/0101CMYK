@@ -17,8 +17,9 @@ public class MapView extends SurfaceView {
     private Bitmap bmpIcon, bmpRaw, bmpCenter;
     private boolean isShowingIcon= true, isShowingRaw= true;
     private MapViewThread myThread;
-    private int xPosIcon = getWidth()/4, xPosRaw= 0;
-    private int yPosIcon = 5, yPosRaw= 0;
+    private double delay = 0.1;
+    private int xPosIcon = getWidth()/4*3, xPosRaw= 0;
+    private int yPosIcon = getHeight(), yPosRaw= 0;
     private int deltaXIcon = 5, deltaXRaw= 5;
     private int deltaYIcon = 5, deltaYRaw= 5;
     private int iconWidth;
@@ -86,37 +87,47 @@ public class MapView extends SurfaceView {
             }
         });
 
-        xPosIcon= getWidth()/4;
+        xPosIcon= getWidth()/4*3;
 //        xPosRaw= getWidth()-iconWidth;
     }
 
     protected void drawSomething(Canvas canvas) {
+        if(mMode == Constants.STEP0) xPosIcon= canvas.getWidth()/4;
         canvas.drawColor(Color.parseColor("#88fdfdfd"));
         canvas.drawBitmap(bmpCenter, canvas.getWidth() / 2, canvas.getHeight() / 2, null);
 
         switch(mMode){
-            case Constants.STEP0: deltaXIcon=0; deltaYIcon=5; break;
-            case Constants.STEP1: deltaXIcon=5; deltaYIcon=0; break;
-            case Constants.STEP2: deltaXIcon=0; deltaYIcon=-5; break;
-            case Constants.STEP3: deltaXIcon=-5; deltaYIcon=0; break;
-            case Constants.STEP4: deltaXIcon=0; deltaYIcon=-5; break;
-            case Constants.STEP5: deltaXIcon=0; deltaYIcon=0; break;
+            case Constants.STEP0: deltaXIcon=0; deltaYIcon=12; break;
+            case Constants.STEP1: deltaXIcon=7; deltaYIcon=0; break;
+            case Constants.STEP2: deltaXIcon=0; deltaYIcon=-7; break;
+            case Constants.STEP3: deltaXIcon=-10; deltaYIcon=0; break;
+            case Constants.STEP4: deltaXIcon=0; deltaYIcon=-9; break;
+            case Constants.STEP5: deltaXIcon=10; deltaYIcon=0; break;
+            case Constants.STEPtemp: delay+=0.1; deltaXIcon = 0; deltaYIcon= 0; break;
+            case Constants.STEP6: deltaXIcon=-6; deltaYIcon=0; break;
+            case Constants.STEP7: deltaXIcon=0; deltaYIcon=0; break;
         }
 
-        xPosIcon += deltaXIcon;
-        yPosIcon += deltaYIcon;
-        if(isShowingIcon) canvas.drawBitmap(bmpIcon, xPosIcon, yPosIcon, null);
 
-        xPosRaw= xPosIcon + (int)(Math.random()*20.0 * (Math.random()*4.0-3));
-        yPosRaw= yPosIcon + (int)(Math.random()*20.0 * (Math.random()*4.0-3));
-        if(isShowingRaw) canvas.drawBitmap(bmpRaw, xPosRaw, yPosRaw, null);
+//        if(mMode != Constants.STEPtemp){
+            xPosIcon += deltaXIcon;
+            yPosIcon += deltaYIcon;
+            if(isShowingIcon) canvas.drawBitmap(bmpIcon, xPosIcon, yPosIcon, null);
+
+            xPosRaw= xPosIcon + (int)(Math.random()*15.0 * (Math.random()*4.0-3));
+            yPosRaw= yPosIcon + (int)(Math.random()*15.0 * (Math.random()*4.0-3));
+            if(isShowingRaw) canvas.drawBitmap(bmpRaw, xPosRaw, yPosRaw, null);
+//        }
 
         switch(mMode){
             case Constants.STEP0: if(yPosIcon >= canvas.getHeight()/4*3) mMode++; break;
             case Constants.STEP1: if(xPosIcon >= canvas.getWidth()/4*3) mMode++; break;
-            case Constants.STEP2: if(yPosIcon <= canvas.getHeight()/4) mMode++; break;
+            case Constants.STEP2: if(yPosIcon <= canvas.getHeight()/2) mMode++; break;
             case Constants.STEP3: if(xPosIcon <= canvas.getWidth()/4) mMode++; break;
-            case Constants.STEP4: if(yPosIcon <= -20) mMode++; break;
+            case Constants.STEP4: if(yPosIcon <= canvas.getHeight()/4) mMode++; break;
+            case Constants.STEP5: if(xPosIcon >= canvas.getWidth()/4*3) mMode++; break;
+            case Constants.STEPtemp: if(delay >= 1.0) mMode++; break;
+            case Constants.STEP6: if(xPosIcon <= canvas.getWidth()/4) mMode++; break;
         }
     }
 

@@ -14,6 +14,12 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+
+        <meta-data android:name="com.sec.android.airview.enable" android:value="true" />
+        <intent-filter>
+            <action android:name="com.sec.android.airview.HOVER" />
+        </intent-filter>
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >

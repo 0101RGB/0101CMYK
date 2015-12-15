@@ -42,33 +42,16 @@ public class MainFragment extends Fragment {
         ((Button)wholeView.findViewById(R.id.buttonMainFragmentSetting)).setOnClickListener(click);
 
         mMapView= (MapView)wholeView.findViewById(R.id.mapviewMainFragment);
-        mMapView.setShowingIcon(((MainActivity)getActivity()).getObjectShowing(Constants.ALG));
-        mMapView.setShowingRaw(((MainActivity)getActivity()).getObjectShowing(Constants.RAW));
     }
 
     public void setObjectShow(boolean check, int type){
-        if(mMapView != null){
-            switch(type){
-                case Constants.RAW: mMapView.setShowingRaw(check); break;
-                case Constants.ALG: mMapView.setShowingIcon(check); break;
-            }
-        }
-    }
-    public boolean getObjectShow(int type){
-        if(mMapView != null){
-            switch(type){
-                case Constants.ALG: return mMapView.getShowingIcon();
-                case Constants.RAW: return mMapView.getShowingRaw();
-            }
-        }
-        return true;
+        if(mMapView != null){}
     }
 
     View.OnClickListener click= new View.OnClickListener(){
         @Override
         public void onClick(View v){
             if(v.getId() == R.id.buttonMainFragmentRefresh){
-
             } else if(v.getId() == R.id.buttonMainFragmentSetting) ((MainActivity)getActivity()).moveFragment(Constants.SETTING);
         }
     };

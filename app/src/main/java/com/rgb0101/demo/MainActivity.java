@@ -24,9 +24,6 @@ public class MainActivity extends FragmentActivity {
     private HompageFragment mWebFragment= null;
     private int mType= Constants.MAIN;
 
-    private boolean isAlgShowing= true;
-    private boolean isRawShowing= true;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +45,6 @@ public class MainActivity extends FragmentActivity {
     private void makeView() {
         mMainFragment= new MainFragment();
         mSettingFragment= new SettingFragment();
-        mWebFragment= new HompageFragment();
     }
 
     public void moveFragment(int type){
@@ -57,29 +53,8 @@ public class MainActivity extends FragmentActivity {
         switch(type){
             case Constants.MAIN: mFrgTransaction.replace(R.id.container, mMainFragment); break;
             case Constants.SETTING: mFrgTransaction.replace(R.id.container, mSettingFragment); break;
-            case Constants.WEBVIEW: mFrgTransaction.replace(R.id.container, mWebFragment); break;
         }
         mFrgTransaction.commit();
-    }
-
-    public void setObjectShowing(boolean check, int type){
-        switch(type){
-            case Constants.ALG: isAlgShowing= check; break;
-            case Constants.RAW: isRawShowing= check; break;
-        }
-    }
-    public boolean getObjectShowing(int type){
-        switch(type){
-            case Constants.ALG: return isAlgShowing;
-            case Constants.RAW: return isRawShowing;
-            default: return true;
-        }
-    }
-
-    public void phoneCall(){
-        Intent intent= new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + Constants.Phone));
-        try{ startActivity(intent);
-        } catch (android.content.ActivityNotFoundException ex){ Toast.makeText(getApplicationContext(),"yourActivity is not founded",Toast.LENGTH_SHORT).show(); }
     }
 
     @Override

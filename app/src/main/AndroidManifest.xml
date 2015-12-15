@@ -15,11 +15,6 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
 
-        <meta-data android:name="com.sec.android.airview.enable" android:value="true" />
-        <intent-filter>
-            <action android:name="com.sec.android.airview.HOVER" />
-        </intent-filter>
-
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >
@@ -29,22 +24,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <!--<service android:enabled="true"-->
-            <!--android:exported="true"-->
-            <!--android:isolatedProcess="false"-->
-            <!--android:label="iBeacon"-->
-            <!--android:name="com.rgb0101.demo.service.IBeaconService">-->
-        <!--</service>-->
-        <!--<service android:enabled="true"-->
-            <!--android:name="com.rgb0101.demo.IBeaconIntentProcessor">-->
-            <!--<meta-data android:name="background" android:value="true" />-->
-            <!--<intent-filter-->
-                <!--android:priority="1" >-->
-                <!--<action android:name="{my app's package name}.DID_RANGING" />-->
-                <!--<action android:name="{my app's package name}.DID_MONITORING" />-->
-            <!--</intent-filter>-->
-        <!--</service>-->
     </application>
 
 </manifest>

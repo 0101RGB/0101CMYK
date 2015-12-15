@@ -36,11 +36,5 @@ public class HompageFragment extends Fragment {
     }
 
     private void makeView(){
-        mWebView= (WebView)wholeView.findViewById(R.id.webview);
-        mWebView.setWebViewClient(new WebViewClient()); // 응룡프로그램에서 직접 url 처리
-        WebSettings set = mWebView.getSettings();
-        set.setJavaScriptEnabled(true);
-        set.setBuiltInZoomControls(true);
-        mWebView.loadUrl("http://www.0101rgb.com");
     }
 }

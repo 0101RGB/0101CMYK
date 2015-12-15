@@ -56,10 +56,6 @@ public class SettingFragment extends Fragment {
     AdapterView.OnItemClickListener itemClick= new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-            switch(position){
-                case 2: ((MainActivity)getActivity()).moveFragment(Constants.WEBVIEW); break;
-                case 3: ((MainActivity)getActivity()).phoneCall(); break;
-            }
         }
     };
 }

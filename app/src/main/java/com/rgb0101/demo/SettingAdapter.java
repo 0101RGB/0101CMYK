@@ -29,11 +29,7 @@ public class SettingAdapter extends ArrayAdapter<String> {
 
     @Override
     public View getView(int position, View v, ViewGroup container){
-        if(position == 0 || position == 1){
-            v= LayoutInflater.from(mContext).inflate(R.layout.first_item, null);
-            ((CheckBox)v.findViewById(R.id.checkListView)).setOnClickListener(new CheckClickListener(position));
-            ((CheckBox)v.findViewById(R.id.checkListView)).setChecked(((MainActivity)mContext).getObjectShowing(position));
-        } else if(v == null) v= LayoutInflater.from(mContext).inflate(R.layout.items, null);
+        v= LayoutInflater.from(mContext).inflate(R.layout.items, null);
         ((TextView)v.findViewById(R.id.textListView)).setText(mContent.get(position));
         ((ImageView)v.findViewById(R.id.imageListView)).setImageDrawable(((MainActivity)mContext).getResources().getDrawable(R.drawable.icon01+position));
         return v;
@@ -43,17 +39,4 @@ public class SettingAdapter extends ArrayAdapter<String> {
     public String getItem(int position){ return mContent.get(position); }
     @Override
     public int getCount(){ return mContent.size(); }
-
-    private class CheckClickListener implements View.OnClickListener {
-        private int mType= 0;
-
-        public CheckClickListener(int type){ mType= type; }
-
-        @Override
-        public void onClick(View v){
-            boolean check= ((CheckBox)v).isChecked();
-            ((MainActivity)mContext).setObjectShowing(check, mType);
-        }
-        public int getType(){ return mType; }
-    };
 }
